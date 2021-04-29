@@ -42,12 +42,12 @@ func (f *FileLogger) initFile() error {
 	fullFileName := path.Join(f.filePath, f.fileName)
 	fileObj, err := os.OpenFile(fullFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		fmt.Printf("open log file failed,err: %v%\n", err)
+		fmt.Printf("open log file failed, err:%v\n", err)
 		return err
 	}
 	errFileObj, err := os.OpenFile(fullFileName+".err", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		fmt.Printf("open log file failed,err: %v%\n", err)
+		fmt.Printf("open log file failed,err: %v\n", err)
 		return err
 	}
 	// 日志文件都已经打开了
