@@ -7,7 +7,7 @@ import (
 
 // 测试我们自己写的日志库
 func main() {
-	log := logger.NewLog("error")
+	log := logger.NewLog("debug")
 	for {
 		log.Debug("这是一条Debug日志")
 		log.Info("这是一套Info日志")
