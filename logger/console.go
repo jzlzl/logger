@@ -6,58 +6,51 @@ import (
 )
 
 // Logger日志结构体
-type Logger struct {
+type ConsoleLogger struct {
 	Level Loglevel
 }
 
 // NewLog构造函数
-func NewLog(levelstr string) Logger {
+func NewLog(levelstr string) ConsoleLogger {
 	level, err := parseLogLevel(levelstr)
 	if err != nil {
 		panic(err)
 	}
-	return Logger{
+	return ConsoleLogger{
 		Level: level,
 	}
 }
 
-func (l Logger) enable(logLevel Loglevel) bool {
-	return logLevel >= l.Level
+func (c ConsoleLogger) enable(logLevel Loglevel) bool {
+	return logLevel >= c.Level
 }
 
-func log(lv Loglevel, format string, a ...interface{}) {
-	msg := fmt.Sprintf(format, a...)
-	now := time.Now()
-	funcName, fileName, lineNo := getInfo(3)
-	fmt.Printf("[%s] [%s] [%s:%s:%d] %s\n", now.Format("2006-01-02 15:04:05"), getLogString(lv), fileName, funcName, lineNo, msg)
-}
-
-func (l Logger) Debug(format string, a ...interface{}) {
-	if l.enable(DEBUG) {
-		log(DEBUG, format, a...)
+// 最开始是函数，后面变为了方法
+func (c ConsoleLogger) log(lv Loglevel, format string, a ...interface{}) {
+	if c.enable(lv) {
+		msg := fmt.Sprintf(format, a...)
+		now := time.Now()
+		funcName, fileName, lineNo := getInfo(3)
+		fmt.Printf("[%s] [%s] [%s:%s:%d] %s\n", now.Format("2006-01-02 15:04:05"), getLogString(lv), fileName, funcName, lineNo, msg)
 	}
 }
 
-func (l Logger) Info(format string, a ...interface{}) {
-	if l.enable(INFO) {
-		log(INFO, format, a...)
-	}
+func (c ConsoleLogger) Debug(format string, a ...interface{}) {
+	c.log(DEBUG, format, a...)
 }
 
-func (l Logger) Warning(format string, a ...interface{}) {
-	if l.enable(WARNING) {
-		log(WARNING, format, a...)
-	}
+func (c ConsoleLogger) Info(format string, a ...interface{}) {
+	c.log(INFO, format, a...)
 }
 
-func (l Logger) Error(format string, a ...interface{}) {
-	if l.enable(ERROR) {
-		log(ERROR, format, a...)
-	}
+func (c ConsoleLogger) Warning(format string, a ...interface{}) {
+	c.log(WARNING, format, a...)
 }
 
-func (l Logger) Fatal(format string, a ...interface{}) {
-	if l.enable(FATAL) {
-		log(FATAL, format, a...)
-	}
+func (c ConsoleLogger) Error(format string, a ...interface{}) {
+	c.log(ERROR, format, a...)
+}
+
+func (c ConsoleLogger) Fatal(format string, a ...interface{}) {
+	c.log(FATAL, format, a...)
 }
