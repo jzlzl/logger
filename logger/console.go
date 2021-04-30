@@ -25,7 +25,7 @@ func (c ConsoleLogger) enable(logLevel Loglevel) bool {
 	return logLevel >= c.Level
 }
 
-// 最开始是函数，后面变为了方法
+// 最开始是函数，后面变为了方法，不换为方法的话，那么就有两个log函数了，当然也可以使用一个log函数，但是又增加了复杂度
 func (c ConsoleLogger) log(lv Loglevel, format string, a ...interface{}) {
 	if c.enable(lv) {
 		msg := fmt.Sprintf(format, a...)
